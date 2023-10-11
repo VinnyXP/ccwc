@@ -13,16 +13,15 @@ IDE - VSCode
 Language - Go 
 - I do not know Go but have been wanting to try it out for a long time now.
 
-What should be done?
-- [X] Read the number of bytes in a file
-- [X] Output the number of bytes in the file
-- [X] Add a "-c" CLI flag
-- [X] Read the input from the CLI ("test.txt")
-
-### What did I learn?
-- Assignment operation in Go
-- CLI arguments
-- CLI flags
-
 
 ## Step 1
+- What should be done?
+    - [X] Read the number of bytes in a file
+    - [X] Output the number of bytes in the file
+    - [X] Add a "-c" CLI flag
+    - [X] Read the input from the CLI ("test.txt")
+
+- What did I learn?
+    - Assignment operator, for loop, packages, opening/closing files in Go
+    - CLI arguments
+    - CLI flags
