@@ -1,5 +1,6 @@
 package main
 
+
 import (
 	"fmt"
 	"flag"
@@ -7,6 +8,7 @@ import (
 	"strconv"
 	"bufio"
 )
+
 
 //Implementation of the c flag in wc
 func c_flag(textFile string) string {
@@ -23,8 +25,9 @@ func c_flag(textFile string) string {
 	defer MyFile.Close()
 
 	myFile, _ := MyFile.Stat()
-	return strconv.FormatInt(myFile.Size(), 10) + " " + textFile
+	return strconv.FormatInt(myFile.Size(), 10)
 }
+
 
 //Implementation of the l flag in wc
 func l_flag(textFile string) string {
@@ -51,8 +54,9 @@ func l_flag(textFile string) string {
 		fmt.Println(err)
 		return ""
 	}
-	return strconv.Itoa(count) + " " + textFile
+	return strconv.Itoa(count)
 }
+
 
 func w_flag(textFile string) string{
 	if textFile == "" {
@@ -79,8 +83,9 @@ func w_flag(textFile string) string{
 		fmt.Println(err)
 		return ""
 	}
-	return strconv.Itoa(count) + " " + textFile
+	return strconv.Itoa(count)
 }
+
 
 func m_flag(textFile string) string{
 	if textFile == "" {
@@ -107,30 +112,35 @@ func m_flag(textFile string) string{
 		fmt.Println(err)
 		return ""
 	}
-	return strconv.Itoa(count) + " " + textFile
+	return strconv.Itoa(count)
 }
 
+
 func main() {
-	//cli options
+	//CLI options
 	strC := flag.String("c", "", "number of bytes") 
 	strL := flag.String("l", "", "number of lines")
 	strW := flag.String("w", "", "number of words")
-	strM := flag.String("m", "", "number of character")
+	strM := flag.String("m", "", "number of characters")
 	flag.Parse()
 
-	if *strC != "" && *strL != "" && *strW != ""{
-		//If the user uses more than one flag
-		fmt.Println("Error: Please provide only one of the flags: -c, - l, -w, or -m.")
-	} else if *strC != "" {
-		fmt.Println(c_flag(*strC))
-	} else if *strL != "" {
-		fmt.Println(l_flag(*strL))
-	} else if *strW != "" {
-		fmt.Println(w_flag(*strW))
-	} else if *strM != "" {
-		fmt.Println(m_flag(*strM))
-	} else {
-		//If no flags were given
-		fmt.Println("Error: No valid flag value provided")
+	args := flag.Arg(0) // Get the non-flag argument as the file path
+	if args != "" {
+		fmt.Println(l_flag(args), w_flag(args), c_flag(args), args)
+	} else{
+		if *strC != "" && *strL != "" && *strW != ""{
+			fmt.Println("Error: Please provide only one of the flags: -c, - l, -w, or -m.")
+		} else if *strC != "" {
+			fmt.Println(c_flag(*strC), *strC)
+		} else if *strL != "" {
+			fmt.Println(l_flag(*strL), *strL)
+		} else if *strW != "" {
+			fmt.Println(w_flag(*strW), *strW)
+		} else if *strM != "" {
+			fmt.Println(m_flag(*strM), *strM)
+		} else {
+			//If no flags were given
+			fmt.Println("Error: No valid flag value provided")
+		}
 	}
 }

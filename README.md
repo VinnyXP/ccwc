@@ -51,4 +51,10 @@ What should be done?
 What did I learn?
 - ScanRunes in bufio can be used to read a file character by character
 
+## Step 5 
+What should be done?
+- [X] Support the default option ("-l", "-w", "-c")
+
+What did I learn?
+- Setting the default, no-option version
 
