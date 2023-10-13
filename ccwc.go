@@ -4,23 +4,71 @@ import (
 	"fmt"
 	"flag"
 	"os"
+	"strconv"
+	"bufio"
 )
 
-func main() {
-	//args := os.Args
-	//MyFile, err := os.Open(args[1:])
-	strC := flag.String("c", "example.txt", "number of bytes") 
-	flag.Parse()
+//Implementation of the c flag in wc
+func c_flag(textFile string) string {
+	if textFile == "" {
+		return "Error: No file path provided"
+	}
 
-	c_str := *strC
-	MyFile, err := os.Open(c_str)
+	MyFile, err := os.Open(textFile)
 
 	if err != nil {
 		fmt.Println("Error opening file:", err)
+		return ""
 	}
 	defer MyFile.Close()
 
 	myFile, _ := MyFile.Stat()
+	return strconv.FormatInt(myFile.Size(), 10) + " " + textFile
+}
 
-	fmt.Println(myFile.Size(), c_str)
+//Implementation of the l flag in wc
+func l_flag(textFile string) string {
+	if textFile == "" {
+		return "Error: No file path provided"
+	}
+
+	MyFile, err := os.Open(textFile)
+
+	if err != nil {
+		fmt.Println("Error opening file:", err)
+		return ""
+	}
+	defer MyFile.Close()
+
+	scanner := bufio.NewScanner(MyFile)
+	scanner.Split(bufio.ScanLines)
+
+	var count int
+	for scanner.Scan() {
+		count++
+	}
+	if err := scanner.Err(); err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	return strconv.Itoa(count) + " " + textFile
+}
+
+func main() {
+	//cli options
+	strC := flag.String("c", "", "number of bytes") 
+	strL := flag.String("l", "", "number of lines")
+	flag.Parse()
+
+	if *strC != "" && *strL != "" {
+		//If the user uses more than one flag
+		fmt.Println("Error: Please provide only one of the -c or -l flags.")
+	} else if *strC != "" {
+		fmt.Println(c_flag(*strC))
+	} else if *strL != "" {
+		fmt.Println(l_flag(*strL))
+	} else {
+		//If no flags were given
+		fmt.Println("Error: No valid flag value provided")
+	}
 }
